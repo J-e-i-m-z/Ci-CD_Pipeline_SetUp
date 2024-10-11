@@ -1,0 +1,37 @@
+# Vagrantfile to set up three VMs for Jenkins, SonarQube, and Docker
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+
+  # Jenkins VM configuration
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.box = "ubuntu/jammy64"
+    jenkins.vm.hostname = "jenkins.vm"
+    jenkins.vm.network "private_network", ip: "192.168.56.11"
+    jenkins.vm.provider "virtualbox" do |vb|
+      vb.memory = "1024"
+      vb.cpus = 2
+    end
+  end
+
+  # Nexus vm configuration
+  config.vm.define "nexus" do |nexus|
+    nexus.vm.box = "eurolinux-vagrant/centos-stream-9"
+    nexus.vm.network "private_network", ip: "192.168.33.14"
+    nexus.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+
+  # SonarQube VM configuration
+  config.vm.define "sonarqube" do |sonarqube|
+    sonarqube.vm.box = "ubuntu/jammy64"
+    sonarqube.vm.hostname = "sonarqube.vm"
+    sonarqube.vm.network "private_network", ip: "192.168.56.12"
+    sonarqube.vm.provider "virtualbox" do |vb|
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+end
